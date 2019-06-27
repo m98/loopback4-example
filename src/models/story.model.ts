@@ -1,6 +1,7 @@
-import {Entity, model, property} from '@loopback/repository';
+import { Entity, model, property, belongsTo } from '@loopback/repository';
+import { User, UserWithRelations } from './user.model';
 
-@model({settings: {strict: false}})
+@model({ settings: { strict: false } })
 export class Story extends Entity {
   @property({
     type: 'number',
@@ -32,10 +33,8 @@ export class Story extends Entity {
   })
   adventure_type: string;
 
-  @property({
-    type: 'number',
-    required: true,
-  })
+
+  @belongsTo(() => User, { keyTo: 'id' })
   user_id: number;
 
   @property({
@@ -56,7 +55,7 @@ export class Story extends Entity {
 }
 
 export interface StoryRelations {
-  // describe navigational properties here
+  user?: UserWithRelations;
 }
 
 export type StoryWithRelations = Story & StoryRelations;
